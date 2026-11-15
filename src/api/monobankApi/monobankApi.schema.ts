@@ -11,19 +11,19 @@ export const CurrencySchema = z.object({
 
 export const AccountSchema = z.object({
   id: z.string(),
-  sendId: z.string(),
+  sendId: z.string().optional(),
   balance: z.number(),
   creditLimit: z.number(),
   type: z.string(),
   currencyCode: z.number(),
-  cashbackType: z.string(),
-  maskedPan: z.array(z.string()),
-  iban: z.string(),
+  cashbackType: z.string().optional(),
+  maskedPan: z.array(z.string()).optional(),
+  iban: z.string().optional(),
 });
 
 export const JarSchema = z.object({
   id: z.string(),
-  sendId: z.string(),
+  sendId: z.string().optional(),
   title: z.string(),
   description: z.string().optional(),
   currencyCode: z.number(),
@@ -37,7 +37,7 @@ const ManagedAccountSchema = z.object({
   creditLimit: z.number(),
   type: z.string(),
   currencyCode: z.number(),
-  iban: z.string(),
+  iban: z.string().optional(),
 });
 
 export const ManagedClientSchema = z.object({
