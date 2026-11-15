@@ -19,14 +19,21 @@ const personalTools = [
   initStatementTool,
   initAccountsTool,
   initGetWebhookTool,
-  initSetWebhookTool,
-  initUnsetWebhookTool,
 ];
+
+const webhookWriteTools = [initSetWebhookTool, initUnsetWebhookTool];
 
 publicTools.forEach((init) => init(server));
 
 if (env.MONOBANK_API_TOKEN) {
   personalTools.forEach((init) => init(server));
+  if (env.MONOBANK_ALLOW_WEBHOOK_WRITE) {
+    webhookWriteTools.forEach((init) => init(server));
+  } else {
+    logger.info(
+      "Webhook write tools are disabled (read-only). Set MONOBANK_ALLOW_WEBHOOK_WRITE=true to enable."
+    );
+  }
 } else {
   logger.warn(
     "MONOBANK_API_TOKEN is not set — personal tools are disabled (client info, statements, webhooks)"

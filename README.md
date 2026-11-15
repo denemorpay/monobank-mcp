@@ -65,8 +65,18 @@ Open [api.monobank.ua](https://api.monobank.ua/index.html) and scan the QR code 
 | `monobank-personal-accounts`    | Compact account and jar list (id, type, currencyCode, balance, maskedPan). Use this for quick account discovery before fetching statements.                                                      |
 | `monobank-personal-statement`   | Transaction history for an account. Inputs: `accountId` (from client-info, or `"0"` for default UAH account), `fromDate`, `toDate` (ISO 8601 with timezone). Maximum range: 31 days per request. |
 | `monobank-get-webhook`          | Returns the webhook URL currently configured for this token. Empty string means no webhook is set.                                                                                               |
-| `monobank-set-webhook`          | ⚠️ **Destructive.** Sets the webhook URL. Overwrites the existing URL immediately with no confirmation — check the current value with `monobank-get-webhook` first.                              |
-| `monobank-unset-webhook`        | ⚠️ **Destructive.** Removes the webhook by setting the URL to empty string.                                                                                                                      |
+| `monobank-set-webhook`          | Requires `MONOBANK_ALLOW_WEBHOOK_WRITE=true`. ⚠️ **Destructive.** Sets the webhook URL. Overwrites the existing URL immediately with no confirmation — check the current value with `monobank-get-webhook` first.                              |
+| `monobank-unset-webhook`        | Requires `MONOBANK_ALLOW_WEBHOOK_WRITE=true`. ⚠️ **Destructive.** Removes the webhook by setting the URL to empty string.                                                                                                                      |
+
+### Read-only by default
+
+The webhook write tools (`monobank-set-webhook`, `monobank-unset-webhook`) are **not registered** unless you opt in:
+
+```env
+MONOBANK_ALLOW_WEBHOOK_WRITE=true
+```
+
+Any other value (or leaving it unset) keeps the server read-only. `monobank-get-webhook` is always available with a token.
 
 ## Caching
 
